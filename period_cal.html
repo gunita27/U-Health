@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="period.js"></script>
+  <link rel="stylesheet" href="cal_style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  
 
 </head>
 <style>
@@ -424,18 +429,11 @@ footer section {
                 </div> -->
                 
             
+ 
+                <div class="date-container">
+                    <input type="text" id="custom-date-input" placeholder="Select a date">
+                </div>
 
-
-            <div class="step">    
-            <div class="step_value">
-                <span class="calender"><img src="period_calander.png" alt=""></span>
-                <span class="date">2</span>
-                <span class="day">friday</span>
-                <span class="month">aug</span>
-                
-            </div>
-
-            </div>
             <div class="step">
                 <span class="plus1"><img src="period_last1.png" alt="increase"></span>
                 <span class="num1"><div class="step-value">27</div></span>
@@ -604,6 +602,7 @@ minus1.addEventListener("click", () => {
                 Your next period starts on: <strong>${result.nextPeriodStartDate}</strong>`;
         }
     
+
 
 
 
