@@ -148,18 +148,17 @@
         border-radius: 5px;
     }
 
-    .step_value { 
-    color: #f2eff0;
-    background-color: #f87b9b;
-    border-radius: 30px;
-    height: 80px;
-    width: 200px;
-    display: flex;                /* Use flexbox to align items */
-    align-items: center;          /* Vertically centers items */
-    padding: 0 10px;              /* Add padding for spacing inside the box */
-    box-sizing: border-box;       /* Ensure padding doesn't affect overall width */
-    gap: 10px;                    /* Space between image and text */
+
+    .step-value {
+  color: #f87b9b;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+  gap: 10px;
+  font-size: 30px;
 }
+
 footer section {
             position: relative;
             width: 100%;
@@ -401,66 +400,25 @@ footer section {
 
         <div class="calculator-steps">
             <div class="step">
-                <span class="plus"><img src="period_last1.png" alt="increase"></span>
-                <span class="num"><div class="step-value">1</div></span>
-                <span class="minus"><img src="period_last2.png" alt="decrease"></span>
-                
+                <span class="plus" onclick="adjustValue('periodDuration', 1)"><img src="period_last1.png" alt="increase"></span>
+                <span class="step-value" id="periodDuration">1</span>
+                <span class="minus" onclick="adjustValue('periodDuration', -1)"><img src="period_last2.png" alt="decrease"></span>
             </div>
-            <!-- <div class="step">    
-            <div class="step_value">
-                <span class="calender" onclick="setInputValue()"><img src="period_calander.png" alt=""></span>
-                <input type="date" id="input" >
-                <span class="date">2</span>
-                <span class="day">friday</span>
-                <span class="month">aug</span> -->
-            <!-- </div> -->
-
-                <!-- This is where the React component will be rendered -->
-                <!-- <div class="step_value">
-                  <span class="calendar" id="calendar-click">
-                    <img src="period_calander.png" alt="Calendar Icon" style="cursor: pointer;">
-                  </span>
-                  <div id="date-display" style="display: none;">
-                    <span class="date"></span>
-                    <span class="day"></span>
-                    <span class="month"></span>
-                  </div>
-                  <input type="date" id="date-input" class="hidden">
-                </div> -->
-                
-            
- 
-                <div class="date-container">
-                    <input type="text" id="custom-date-input" placeholder="Select a date">
-                </div>
-
+    
+            <div class="date-container">
+                <input type="text" id="periodStartDate" placeholder="Select date">
+            </div>
+    
             <div class="step">
-                <span class="plus1"><img src="period_last1.png" alt="increase"></span>
-                <span class="num1"><div class="step-value">27</div></span>
-                <span class="minus1"><img src="period_last2.png" alt="decrease"></span>
+                <span class="plus1" onclick="adjustValue('cycleLength', 1)"><img src="period_last1.png" alt="increase"></span>
+                <span class="step-value" id="cycleLength">28</span>
+                <span class="minus1" onclick="adjustValue('cycleLength', -1)"><img src="period_last2.png" alt="decrease"></span>
             </div>
         </div>
-        <!-- calculator -->
-        <div class="calculator-inputs">
-            <div>
-                <label for="periodDuration">1. How long does your period last? (in days)</label>
-                <input type="number" id="periodDuration" min="1" max="10" value="5">
-            </div>
-            <div>
-                <label for="periodStartDate">2. When did your period start? (YYYY-MM-DD)</label>
-                <input type="date" id="periodStartDate">
-            </div>
-            <div>
-                <label for="cycleLength">3. How long is your cycle? (in days)</label>
-                <input type="number" id="cycleLength" min="21" max="35" value="28">
-            </div>
-        </div>
-
-        <button class="track-button" onclick="trackPeriod()">Track Now</button>
-
-        <div class="results">
-            <p id="result"></p>
-        </div>
+    
+        <button class="track-button" onclick="trackPeriod()">Calculate Next Period</button>
+    
+        <div id="result"></div>
 
         <!-- Calendar Preview -->
         <div class="calendar-preview">
@@ -565,8 +523,18 @@ minus1.addEventListener("click", () => {
     console.log(b);
 });
 
-        // -------------------------------------------
 
+   // Initialize the flatpickr date picker
+   document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('#periodStartDate', {
+                dateFormat: "d m Y",  // day month year
+                onChange: function (selectedDates, dateStr, instance) {
+                    console.log("Selected date:", dateStr);
+                }
+            });
+        });
+
+        // Function to calculate the end date of the current period and the start date of the next period
         function calculateNextPeriod(periodDuration, periodStartDate, cycleLength) {
             // Convert periodStartDate to a Date object
             let startDate = new Date(periodStartDate);
@@ -585,68 +553,42 @@ minus1.addEventListener("click", () => {
             };
         }
 
+        // Function to track and display the period dates
         function trackPeriod() {
-            const periodDuration = document.getElementById('periodDuration').value;
+            const periodDuration = parseInt(document.getElementById('periodDuration').textContent, 10);
             const periodStartDate = document.getElementById('periodStartDate').value;
-            const cycleLength = document.getElementById('cycleLength').value;
+            const cycleLength = parseInt(document.getElementById('cycleLength').textContent, 10);
 
             if (!periodStartDate) {
                 alert("Please select a start date.");
                 return;
             }
 
-            const result = calculateNextPeriod(periodDuration, periodStartDate, cycleLength);
+            // Convert the date from 'd m Y' to 'YYYY-MM-DD' format
+            const dateParts = periodStartDate.split(" ");
+            const formattedDate = `${dateParts[2]}-${dateParts[1].padStart(2, '0')}-${dateParts[0].padStart(2, '0')}`;
+
+            const result = calculateNextPeriod(periodDuration, formattedDate, cycleLength);
 
             document.getElementById('result').innerHTML = 
                 `Your current period ends on: <strong>${result.periodEndDate}</strong><br>
                 Your next period starts on: <strong>${result.nextPeriodStartDate}</strong>`;
         }
-    
 
+        // Function to adjust the values of period duration and cycle length
+        function adjustValue(id, increment) {
+            const element = document.getElementById(id);
+            let currentValue = parseInt(element.textContent, 10);
 
+            currentValue += increment;
 
+            // Ensure the value does not go below 1 for duration and cycle
+            if (currentValue < 1) {
+                currentValue = 1;
+            }
 
-        // kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-        // function setInputValue()
-        // {
-        //     var input=document.getElementById('input');
-        //     input.setAttribute=("value","New value");
-
-        // }
-
-//   lllllllllllllllllllllllllllllllllllllllllllllllll
-// const CalendarComponent = () => {
-//   const dateInput = document.getElementById('date-input');
-//   const calendarClick = document.getElementById('calendar-click');
-//   const dateDisplay = document.getElementById('date-display');
-//   const dateSpan = dateDisplay.querySelector('.date');
-//   const daySpan = dateDisplay.querySelector('.day');
-//   const monthSpan = dateDisplay.querySelector('.month');
-
-//   const handleCalendarClick = () => {
-//     dateInput.click(); // Trigger the date input click
-//   };
-
-//   const handleDateChange = (event) => {
-//     const selectedDate = new Date(event.target.value);
-//     if (selectedDate) {
-//       dateSpan.textContent = selectedDate.getDate();
-//       daySpan.textContent = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
-//       monthSpan.textContent = selectedDate.toLocaleDateString("en-US", { month: "short" });
-//       dateDisplay.style.display = "block"; // Show the date display
-//     }
-//   };
-
-//   // Attach event listeners
-//   calendarClick.addEventListener('click', handleCalendarClick);
-//   dateInput.addEventListener('change', handleDateChange);
-// };
-
-// // Initialize the component when the DOM is ready
-// document.addEventListener('DOMContentLoaded', CalendarComponent);
-
-
-
+            element.textContent = currentValue;
+        }
     </script>
 </body>
 
