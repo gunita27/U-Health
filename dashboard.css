@@ -34,6 +34,15 @@ body {
   --box-shadow: 0 2rem 3rem var(--clr-light);
 
 }
+.dark-theme-variables{
+  --clr-color-background:#181a1e;
+  --clr-white:#202528;
+  --clr-light:rgb(0,0,0,0.4);
+  --clr-dark:#edeffd;
+  --clr-dark-variant:#677483;
+  --box-shadow:0 2rem 3rem var(--clr-light)
+}
+
 
 * {
   margin: 0;
@@ -142,9 +151,7 @@ aside .logo {
 
 }
 
-aside .top div.close {
-  display: none;
-}
+
 
 aside .sidebar {
   background-color: var(--clr-white);
@@ -506,4 +513,131 @@ main .recent_order a{
   border: 2px dashed;
   color: var(--clr-dark-variant);
   margin-bottom: 40px;
+}
+/* media query */
+@media screen and (max-width:1200px){
+ .container{
+  width: 94%;
+  grid-template-columns: 7rem auto 14rem;
+
+ }
+ aside .sidebar h3{
+ display: none;
+}
+aside .sidebar a:last-child{
+  position: relative;
+  margin-top: 1.8rem;
+
+
+}
+main .insights{
+  grid-template-columns: repeat(1,1fr);
+  display: grid;
+}
+
+}
+
+/* media query for phones */
+@media screen and (max-width:768px){
+  .container{
+    width: 100%;
+    grid-template-columns: repeat(1,1fr) ;
+  }
+  aside {
+    position: fixed;
+    width: 18rem;
+    z-index: 3;
+    background-color: var(--clr-white);
+    display: none;
+    left: -100px;
+    animation: menuAni 1s forwards;
+  }
+  @keyframes menuAni {
+    to{
+      left: 0;
+    }
+  }
+  aside .logo h2{
+    display: inline;
+
+  }
+  aside .sidebar h3{
+    display: inline;
+  }
+  aside .sidebar a{
+    width: 100%;
+    height: 3.4rem;
+    
+  }
+ 
+  aside .top div.close span{
+    display: inline;
+    position: absolute;
+    right: 0;
+    margin-right: 30px;
+    font-size: 35px;
+    
+  }
+  .rightside .top{
+    position: fixed;
+    top: 0%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.8rem ;
+    background: var(--clr-white);
+   width: 100%;
+   z-index: 2;
+   box-shadow: 0 1rem 1rem var(--clr-white);
+   margin: 0;
+    height:4.6rem;
+  }
+
+  main .insights{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    gap: 1.6rem;
+    padding: 40px;
+
+  }
+  .main .recent_order
+{
+  padding: 30px;
+  margin: 0 auto;
+
+}
+.rightside .profile{
+  position: absolute;
+  left: 70%;
+
+}
+/* .rightside .top .theme-toggle{
+  width: 4.4rem;
+  position: absolute;
+  left: 50%;
+} */
+.rightside .recentupdates {
+  padding: 30px;
+  
+}
+.rightside .sales_analystics {
+  padding: 30px;
+
+}
+.addproducts{
+  padding: 30px;
+}
+.rightside .top button{
+  display: inline-block;
+  background: transparent;
+  cursor: pointer;
+  color: var(--clr-dark);
+  position: absolute;
+  left: 1rem;
+}
+
+
+
+
 }
