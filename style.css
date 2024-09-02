@@ -208,7 +208,21 @@ footer p {
 }
 .wrapper {
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.wrapperimg {
+  position: absolute;
+  max-height: 250px;
+  max-width: 250px;
+  top: 25%; /* adjust the top position to center the logo vertically */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3; /* add this to ensure the logo is on top of the "Enter Website" button */
+}
+.wrapperimg img{
+  width: 100%;
+  height: 100%;
+
 }
