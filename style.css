@@ -1,0 +1,214 @@
+header{
+  background-color: #efbed4;
+  color: #333;
+  padding: 20px 0;
+}
+.animation1 {
+    height: 30vh;
+    position: relative;
+     /* add this to contain the absolute positioned semicircle */
+  }
+  
+  .animation2 {
+    height: 20vh;
+    position: relative;
+    bottom: 0;
+     /* add this to contain the absolute positioned semicircle */
+  }
+  
+  .semi {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #efbed4;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    top: 0;
+    z-index:1;
+  }
+  
+  .semi2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #efbed4;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    z-index: 1;
+  }
+  .cart-icon i{
+    font-size:26px;
+    color: #efbed4;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 0; /* ensure the content is on top of the semicircles */
+    padding-top: 1vh; /* add this to create space for the semicircle */
+  }
+  .short-cards{
+    padding-left: 4%;
+    width: 95%;
+    z-index:0;
+  }
+  .product-cards{
+    padding-left: 6%;
+    width: 95%;
+  }
+  .card-img-top {
+    max-width: 250px;
+    }
+  .periodcalculaterbanner img {
+      max-width: 100%;
+      position: relative;
+  }
+  .periodcalculaterbanner button {
+    position: absolute;
+    top: 80%;
+    left: 65%;
+    max-width: 250px;
+    min-width: 10px;
+    padding: 16px 30px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    font-size: larger;
+    background:whitesmoke;
+
+}
+@media (max-width: 768px) {
+  .periodcalculaterbanner button {
+    max-width: 120px;
+    padding: 3px 5px;
+    font-size: medium;
+  }
+}
+
+@media (max-width: 480px) {
+  .periodcalculaterbanner button {
+    max-width: 50px;
+    padding: 2px 3px;
+  }
+}
+.periodcalculaterbanner{
+  position:relative;
+  width: 85%;
+}
+.card {
+  transition: transform 0.2s ease-in-out; /* add this to enable smooth transition */
+}
+
+.card:hover {
+  transform: scale(1.09);
+  cursor: pointer;
+}
+.products {
+  font-size: 7rem;
+  text-align: center;
+  color: #60404d;
+}
+footer {
+  background-color: #efbed4;
+  color: #333;
+  padding: 20px 0; /* add this to add some space between the footer and the content above */
+}
+
+footer .content {
+  margin-top: -20px; /* add this to rise the footer content up */
+}
+
+footer h4 {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer li {
+  margin-bottom: 10px;
+}
+
+footer a {
+  color: #333;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #666;
+}
+
+footer .fa {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+footer hr {
+  border: none;
+  border-top: 2px solid rgb(7, 1, 1); /* change the color and thickness as needed */
+  margin: 20px auto;
+  width: 80%; /* adjust the width as needed */
+}
+
+footer p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 0;
+}
+
+
+.curtain-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #efbed4;
+  transform: translateY(0);
+  transition: transform 1s ease-out;
+  z-index: 4;
+}
+
+.curtain-animation.roll-up {
+  transform: translateY(-100vh);
+}
+.curtain-animation.hidden {
+  display: none;
+}
+.link{
+  font-family: "Inter";
+  font-size: 2rem;
+  font-weight: bold;
+  color:#333;
+  text-decoration: none;
+  position: relative;
+  border: 1px solid #efbed4;
+
+  span,i{
+    position: relative;
+  }
+  i{
+    margin-left: 0.5em;
+  }
+}
+.pink{
+  width: 2em;
+  height: 2em;
+  border-radius: 2em;
+  background-color:aliceblue;
+  position:absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: -0.65em;
+}
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
