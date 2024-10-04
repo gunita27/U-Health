@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fde4e7;
+        }
+
+        .cart-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead {
+            background-color: #f87b9b;
+            color: white;
+        }
+
+        table thead th {
+            padding: 10px;
+        }
+
+        table tbody td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f8d4d9;
+        }
+
+        .total-section {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .total-section h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .remove-btn {
+            background-color: #ff6b85;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .remove-btn:hover {
+            background-color: #f04158;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <h2>Total: ₹<span id="cart-total">0.00</span></h2>
+        </div>
+    </div>
+
+    <script>
+        // Function to render the cart items
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            cartItems.innerHTML = ''; // Clear previous items
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<tr><td colspan="5" class="empty-cart">Your cart is empty!</td></tr>';
+            } else {
+                cart.forEach((item, index) => {
+                    let itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+
+                    let row = `<tr>
+                        <td>${item.name}</td>
+                        <td>₹${item.price}</td>
+                        <td>${item.quantity}</td>
+                        <td>₹${itemTotal.toFixed(2)}</td>
+                        <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+                    </tr>`;
+                    cartItems.innerHTML += row;
+                });
+            }
+
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        // Function to remove an item from the cart
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart(); // Re-render cart after removing item
+        }
+
+        // Render the cart when the page loads
+        window.onload = function () {
+            renderCart();
+        };
+    </script>
+</body>
+</html>
