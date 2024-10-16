@@ -15,44 +15,69 @@
         .cart-container {
             max-width: 1000px;
             margin: 50px auto;
-            background-color: #fff;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInUp 0.5s forwards; /* Animation for entrance */
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
             font-size: 28px;
             text-align: center;
-            color: #555;
+            color: #f04158;
+            margin-bottom: 30px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: #fdf7f9;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         table thead {
             background-color: #f87b9b;
             color: white;
+            font-size: 18px;
         }
 
         table thead th {
-            padding: 10px;
+            padding: 12px 15px;
+            text-align: center;
         }
 
         table tbody td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+            transition: background-color 0.3s ease; /* Transition for row hover */
         }
 
         table tbody tr:nth-child(even) {
             background-color: #f8d4d9;
         }
 
+        table tbody tr:hover {
+            background-color: #f3c5cf; /* Highlight on hover */
+            transform: scale(1.02); /* Scale effect on hover */
+        }
+
         .total-section {
-            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
         }
 
@@ -65,9 +90,11 @@
             background-color: #ff6b85;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 16px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
         }
 
         .remove-btn:hover {
@@ -80,29 +107,96 @@
             color: #777;
             margin-top: 50px;
         }
+
+        /* Box styling */
+        .box {
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-buy {
+            background-color: #f04158;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            width: 100%; /* Full width for the button */
+        }
+
+        .btn-buy:hover {
+            background-color: #ff6b85;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .cart-container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .btn-buy {
+                font-size: 14px;
+            }
+
+            .total-section h2 {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="checkout.html">Checkout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
     <div class="cart-container">
-        <h1>Your Cart</h1>
+        <div class="box">
+            <h1>Your Cart</h1>
 
-        <table id="cart-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody id="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </tbody>
-        </table>
+            <table id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Cart items will be dynamically added here -->
+                </tbody>
+            </table>
 
-        <div class="total-section">
-            <h2>Total: ₹<span id="cart-total">0.00</span></h2>
+            <div class="total-section">
+                <h2>Total: ₹<span id="cart-total">0.00</span></h2>
+                <button class="btn-buy" onclick="redirectToCheckout()">BUY</button>
+            </div>
         </div>
     </div>
 
@@ -146,10 +240,26 @@
             renderCart(); // Re-render cart after removing item
         }
 
+        // Function to redirect to the checkout page
+        function redirectToCheckout() {
+            // Check if the cart is empty
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Your cart is empty! Please add items to the cart.');
+                return;
+            }
+            // Redirect to checkout.html page
+            window.location.href = 'checkout.html';
+        }
+
         // Render the cart when the page loads
         window.onload = function () {
             renderCart();
         };
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.2.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
