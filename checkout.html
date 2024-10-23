@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fde4e7;
+        }
+
+        .checkout-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            color: #f04158;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .payment-section {
+            margin-bottom: 30px;
+        }
+
+        .btn-checkout {
+            background-color: #f04158;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .btn-checkout:hover {
+            background-color: #ff6b85;
+        }
+
+        .summary-section {
+            margin-top: 30px;
+        }
+
+        .summary-section h3 {
+            font-size: 22px;
+            color: #333;
+            text-align: center;
+        }
+
+        .summary-section .summary-total {
+            font-size: 18px;
+            color: #333;
+            text-align: right;
+        }
+
+        .loader {
+            display: none;
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #f04158;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Your Brand</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="product.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+
+        <!-- Customer Information -->
+        <div class="form-section">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="address">Shipping Address</label>
+            <input type="text" id="address" placeholder="Enter your shipping address" required>
+
+            <label for="city">City</label>
+            <input type="text" id="city" placeholder="Enter your city" required>
+
+            <label for="state">State</label>
+            <select id="state" required>
+                <option value="">Select your state</option>
+                <option value="NY">New York</option>
+                <option value="CA">California</option>
+                <option value="TX">Texas</option>
+                <!-- Add more states as needed -->
+            </select>
+
+            <label for="zip">ZIP Code</label>
+            <input type="text" id="zip" placeholder="Enter your ZIP code" required>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <label for="card-name">Name on Card</label>
+            <input type="text" id="card-name" placeholder="Cardholder name" required>
+
+            <label for="card-number">Card Number</label>
+            <input type="text" id="card-number" placeholder="Enter your card number" required>
+
+            <label for="exp-month">Expiration Month</label>
+            <select id="exp-month" required>
+                <option value="">Select month</option>
+                <option value="01">01 - January</option>
+                <option value="02">02 - February</option>
+                <option value="03">03 - March</option>
+                <option value="04">04 - April</option>
+                <!-- Add more months -->
+            </select>
+
+            <label for="exp-year">Expiration Year</label>
+            <select id="exp-year" required>
+                <option value="">Select year</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="Enter CVV" required>
+        </div>
+
+        <!-- Checkout Button -->
+        <button class="btn-checkout" onclick="completeCheckout()">Complete Checkout</button>
+
+        <!-- Loading Spinner -->
+        <div class="loader" id="loading-spinner"></div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h3>Order Summary</h3>
+            <div id="order-summary-items"></div>
+            <p class="summary-total">Total: ₹<span id="order-total">0.00</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Set order total and display order summary (fetching from localStorage)
+        function setOrderSummary() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+            let orderSummaryItems = document.getElementById('order-summary-items');
+            orderSummaryItems.innerHTML = ''; // Clear previous items
+
+            if (cart.length === 0) {
+                orderSummaryItems.innerHTML = '<p>Your cart is empty!</p>';
+            } else {
+                cart.forEach(item => {
+                    let itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    orderSummaryItems.innerHTML += `
+                        <div>
+                            <strong>${item.name}</strong> - ₹${item.price} x ${item.quantity} = ₹${itemTotal.toFixed(2)}
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('order-total').textContent = total.toFixed(2);
+        }
+
+        // Simulate payment processing using Promises
+        function processPayment() {
+            return new Promise((resolve, reject) => {
+                // Simulate payment processing delay with a setTimeout
+                setTimeout(() => {
+                    // Randomly resolve or reject the promise
+                    let success = Math.random() > 0.2; // 80% chance of success
+                    if (success) {
+                        resolve("Payment successful!");
+                    } else {
+                        reject("Payment failed. Please try again.");
+                    }
+                }, 2000); // Simulate a 2-second delay
+            });
+        }
+
+        // Function to handle checkout process
+        function completeCheckout() {
+            // Display loading spinner
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            // Call the processPayment() Promise
+            processPayment()
+                .then((message) => {
+                    // Payment successful
+                    alert(message);
+
+                    // Clear the cart and redirect to a confirmation page
+                    localStorage.removeItem('cart');
+                    window.location.href = "confirmation.html"; // Redirect to confirmation page
+                })
+                .catch((error) => {
+                    // Payment failed
+                    alert(error);
+                })
+                .finally(() => {
+                    // Hide loading spinner after processing
+                    document.getElementById('loading-spinner').style.display = 'none';
+                });
+        }
+
+        // Initialize order summary on page load
+        window.onload = setOrderSummary;
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
